@@ -1,6 +1,8 @@
 <?php
 require "conn.php";
 $tag_id = $_POST["tag_id"];
+#$tag_id = 560;
+
 
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";
 
@@ -12,7 +14,7 @@ if ($result1=mysqli_query($conn,$mysql_qry1))
 	}
 }	
 
-$mysql_qry2 = "SELECT `time`, `ward_id` FROM `location` WHERE patient_id='$patient_id'";
+$mysql_qry2 = "SELECT `time`, `ward_id` FROM `location` WHERE patient_id='$patient_id' ORDER BY `time` DESC";
 
 $response = array();
 

@@ -12,7 +12,7 @@ if ($result1=mysqli_query($conn,$mysql_qry1))
 	}
 }	
 
-$mysql_qry2 = "SELECT `date`, `doctor_id`, `description` FROM `diagnostics` WHERE patient_id='$patient_id'";
+$mysql_qry2 = "SELECT `date`, `doctor_id`, `description` FROM `diagnostics` WHERE patient_id='$patient_id' ORDER BY `date` DESC";
 
 $response = array();
 

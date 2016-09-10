@@ -12,7 +12,7 @@ if ($result1=mysqli_query($conn,$mysql_qry1))
 	}
 }	
 
-$mysql_qry2 = "SELECT `start_date`, `end_date`,`doctor_id`,`medicine_id`, `quantity_per_dosage`, `status`, `morning`,`afternoon`,`evening`,`mealRelation`FROM `prescription` WHERE patient_id='$patient_id'";
+$mysql_qry2 = "SELECT `start_date`, `end_date`,`doctor_id`,`medicine_id`, `quantity_per_dosage`, `status`, `morning`,`afternoon`,`evening`,`mealRelation`FROM `prescription` WHERE patient_id='$patient_id' ORDER BY `end_date` ASC";
 
 $response = array();
 
