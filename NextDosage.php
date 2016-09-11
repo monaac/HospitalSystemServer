@@ -15,6 +15,7 @@ if ($result1=mysqli_query($conn,$mysql_qry1))
 }	
 
 $current_hour = date("H");
+$current_date = date("YYYY-mm-dd");
 
 $status = "active";
 
@@ -37,17 +38,38 @@ if ($result2=mysqli_query($conn,$mysql_qry2))
 			}	
 		}
 		
-		if($current_hour > "5" and $current_hour < "11" and $row2[3] == $t)
+		if($current_hour > "-1" and $current_hour < "11" and $row2[3] == $t)
 		{
-			array_push($response, array("medName"=>$medName,"quantity_per_dosage"=>$row2[1], "mealRelation"=>$row2[6],"prescription_id"=>$row2[7]));		
+            $mysql_qry5 = "SELECT * FROM `dosage` WHERE prescription_id = '$row2[7]' AND DATE(time) = cast(now() as date) AND HOUR(time) > -1 AND HOUR(time) < 11 ";
+            $result5=mysqli_query($conn,$mysql_qry5);
+            if(!$result5 || mysqli_num_rows($result5)>0)
+            {}
+            else
+            {
+                array_push($response, array("medName"=>$medName,"quantity_per_dosage"=>$row2[1], "mealRelation"=>$row2[6],"prescription_id"=>$row2[7]));
+            }
 		}
 		elseif($current_hour > "10" and $current_hour < "17" and $row2[4] == $t)
 		{
-			array_push($response, array("medName"=>$medName,"quantity_per_dosage"=>$row2[1], "mealRelation"=>$row2[6],"prescription_id"=>$row2[7]));			
+            $mysql_qry6 = "SELECT * FROM `dosage` WHERE prescription_id = '$row2[7]' AND DATE(time) = cast(now() as date) AND HOUR(time) > 10 AND HOUR(time) < 17 ";
+            $result6=mysqli_query($conn,$mysql_qry6);
+            if(!$result6 || mysqli_num_rows($result6)>0)
+            {}
+            else
+            {
+                array_push($response, array("medName"=>$medName,"quantity_per_dosage"=>$row2[1], "mealRelation"=>$row2[6],"prescription_id"=>$row2[7]));
+            }
 		}
-		elseif($current_hour > "17" and $current_hour < "23" and $row2[5] == $t)
+		elseif($current_hour > "17" and $current_hour < "24" and $row2[5] == $t)
 		{
-			array_push($response, array("medName"=>$medName,"quantity_per_dosage"=>$row2[1], "mealRelation"=>$row2[6],"prescription_id"=>$row2[7]));		
+            $mysql_qry7 = "SELECT * FROM `dosage` WHERE prescription_id = '$row2[7]' AND DATE(time) = cast(now() as date) AND HOUR(time) > 17 AND HOUR(time) < 24 ";
+            $result7=mysqli_query($conn,$mysql_qry7);
+            if(!$result7 || mysqli_num_rows($result7)>0)
+            {}
+            else
+            {
+                array_push($response, array("medName"=>$medName,"quantity_per_dosage"=>$row2[1], "mealRelation"=>$row2[6],"prescription_id"=>$row2[7]));
+            }
 		}
 		
     }

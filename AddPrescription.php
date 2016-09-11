@@ -3,9 +3,13 @@ require "conn.php";
 $tag_id = $_POST["tag_id"];
 $doctor_tag = $_POST["doctor_tag"];
 $medicine_name = $_POST["medicine_name"];
-$quantity_per_day = $_POST["quantity_per_day"];
-$frequency_per_day = $_POST["frequency_per_day"];
+$quantity_per_dosage = $_POST["quantity_per_dosage"];
 $end_date = $_POST["end_date"];
+$morning = $_POST["morning"];
+$afternoon = $_POST["afternoon"];
+$evening = $_POST["evening"];
+$mealRelation = $_POST["mealRelation"];
+
 
 $patient_id = "";
 $doctor_id = "";
@@ -45,11 +49,15 @@ $curr_date = date("Y-m-d");
 
 $status = "active";
 
-$mysql_qry = "INSERT INTO `hospital`.`prescription` (`prescription_id`, `patient_id`, `doctor_id`, `medicine_id`, `quantity_per_day`, `frequency_per_day`, `start_date`, `end_date`, `status`) VALUES (NULL, '$patient_id', '$doctor_id','$medicine_id' ,'$quantity_per_day', '$frequency_per_day', '$curr_date', '$end_date', '$status')";
+$mysql_qry = "INSERT INTO `hospital`.`prescription` (`prescription_id`, `patient_id`, `doctor_id`, `medicine_id`, `quantity_per_dosage`, `start_date`, `end_date`, `status`, `morning`, `afternoon`, `evening`, `mealRelation`) VALUES (NULL, '$patient_id','$doctor_id','$medicine_id','$quantity_per_dosage','$curr_date', '$end_date', '$status', '$morning', '$afternoon', '$evening', '$mealRelation')";
 
 if ($result=mysqli_query($conn,$mysql_qry))
 {
 	echo "success";
+}
+else
+{
+    echo "failed";
 }
 mysqli_close($conn);
 ?>
