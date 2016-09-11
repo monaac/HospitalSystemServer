@@ -2,6 +2,7 @@
 require "conn.php";
 $tag_id = $_POST["tag_id"];
 
+
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";
 
 if ($result1=mysqli_query($conn,$mysql_qry1))

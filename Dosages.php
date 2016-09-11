@@ -1,7 +1,7 @@
 <?php
 require "conn.php";
-$tag_id = $_POST["tag_id"];
-#$tag_id = "560";
+#$tag_id = $_POST["tag_id"];
+$tag_id = "560";
 
 
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";
@@ -21,6 +21,12 @@ $medName = "";
 $quantity = "";
 $nurse = "";
 $medicine_id = "";
+$morning = "morning";
+$afternoon = "afternoon";
+$evening = "evening";
+
+$current_hour = date("H");
+$current_date = date("YYYY-mm-dd");
 
 if ($result2=mysqli_query($conn,$mysql_qry2))
 {
@@ -56,7 +62,17 @@ if ($result2=mysqli_query($conn,$mysql_qry2))
                 $nurse .= $row5[1];
             }
         }
-        array_push($response, array("nurse"=>$nurse,"time"=>$row2[0],"medName"=>$medName,"quantity"=>$quantity));
+
+        $time_stamp = strtotime($row2[0]);
+        $hour = date('H',$time_stamp);
+
+        if($hour>"-1" && $hour<"11")
+            array_push($response, array("nurse"=>$nurse,"time"=>$row2[0],"medName"=>$medName,"quantity"=>$quantity,"period"=>$morning));
+        elseif($hour>"11" && $hour<"18")
+            array_push($response, array("nurse"=>$nurse,"time"=>$row2[0],"medName"=>$medName,"quantity"=>$quantity,"period"=>$afternoon));
+        elseif($hour>"17" && $hour<"24")
+            array_push($response, array("nurse"=>$nurse,"time"=>$row2[0],"medName"=>$medName,"quantity"=>$quantity,"period"=>$evening));
+
     }
 
 }
