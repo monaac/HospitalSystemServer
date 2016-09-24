@@ -17,6 +17,7 @@ if ($result1=mysqli_query($conn,$mysql_qry1))
 $image = ".jpg";
 $pdf = ".pdf";
 $nameOfFile = "";
+$i = "image";
 
 $mysql_qry2 = "SELECT `report_id`, `date`, `type`, `doc_type` FROM `report` WHERE patient_id='$patient_id'";
 
@@ -27,7 +28,7 @@ if ($result2=mysqli_query($conn,$mysql_qry2))
     while($row2=mysqli_fetch_row($result2))
     {
         $nameOfFile = $row2[0];
-        if(strcmp($row2[3],$image)==0)
+        if(strcmp($row2[3],$i)==0)
             $nameOfFile .= $image;
         else
             $nameOfFile .= $pdf;
