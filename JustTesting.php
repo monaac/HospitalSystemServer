@@ -1,7 +1,7 @@
 <?php
-//set_include_path(get_include_path() . PATH_SEPARATOR . 'phpseclib');
 set_include_path('.;C:\wamp\bin\php\php5.5.12\pear');
 include('Crypt/RSA.php');
+include "conn.php";
 
 $rsa = new Crypt_RSA();
 
