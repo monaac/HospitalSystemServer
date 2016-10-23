@@ -1,12 +1,29 @@
 <?php
 require "conn.php";
-$tag_id = $_POST["tag_id"];
-$doctor_tag = $_POST["doctor_tag"];
-$bpn = $_POST["bpn"];
-$bpd = $_POST["bpd"];
-$temperature = $_POST["temperature"];
-$pulse = $_POST["pulse"];
-$weight = $_POST["weight"];
+set_include_path('.;C:\wamp\bin\php\php5.5.12\pear');
+include('Crypt/AES.php');
+include('Crypt/RSA.php');
+include('Crypt/Random.php');
+include('Math/BigInteger.php');
+$client_response = $_POST["client_response"];
+
+//Decrypt Data		
+//---------------------------------------------------------------
+	$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
+	$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
+	$cipher->setKey($symmetricKey);
+	$decryptedData = $cipher->decrypt(base64_decode($client_response));
+//---------------------------------------------------------------	
+
+$obj = json_decode($decryptedData);
+
+$tag_id = $obj->{"tag_id"};
+$doctor_tag = $obj->{"doctor_tag"};
+$bpn = $obj->{"bpn"};
+$bpd = $obj->{"bpd"};
+$temperature = $obj->{"temperature"};
+$pulse = $obj->{"pulse"};
+$weight = $obj->{"weight"};
 
 $patient_id = "";
 $doctor_id = "";

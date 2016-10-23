@@ -1,14 +1,31 @@
 <?php
 require "conn.php";
-$tag_id = $_POST["tag_id"];
-$doctor_tag = $_POST["doctor_tag"];
-$medicine_name = $_POST["medicine_name"];
-$quantity_per_dosage = $_POST["quantity_per_dosage"];
-$end_date = $_POST["end_date"];
-$morning = $_POST["morning"];
-$afternoon = $_POST["afternoon"];
-$evening = $_POST["evening"];
-$mealRelation = $_POST["mealRelation"];
+set_include_path('.;C:\wamp\bin\php\php5.5.12\pear');
+include('Crypt/AES.php');
+include('Crypt/RSA.php');
+include('Crypt/Random.php');
+include('Math/BigInteger.php');
+$client_response = $_POST["client_response"];
+
+//Decrypt Data		
+//---------------------------------------------------------------
+	$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
+	$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
+	$cipher->setKey($symmetricKey);
+	$decryptedData = $cipher->decrypt(base64_decode($client_response));
+//---------------------------------------------------------------	
+
+$obj = json_decode($decryptedData);
+
+$tag_id = $obj->{"tag_id"};
+$doctor_tag = $obj->{"doctor_tag"};
+$medicine_name = $obj->{"medicine_name"};
+$quantity_per_dosage = $obj->{"quantity_per_dosage"};
+$end_date = $obj->{"end_date"};
+$morning = $obj->{"morning"};
+$afternoon = $obj->{"afternoon"};
+$evening = $obj->{"evening"};
+$mealRelation = $obj->{"mealRelation"};
 
 
 $patient_id = "";
