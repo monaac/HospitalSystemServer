@@ -2,9 +2,11 @@
 require "conn.php";
 set_include_path('.;C:\wamp\bin\php\php5.5.12\pear');
 include('Crypt/AES.php');
+include('Crypt/RSA.php');
 include('Crypt/Random.php');
-//$tag_id = $_POST["tag_id"];
-$tag_id = 560;
+include('Math/BigInteger.php');
+$tag_id = $_POST["tag_id"];
+//$tag_id = 560;
 
 
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";
@@ -38,18 +40,13 @@ if ($result2=mysqli_query($conn,$mysql_qry2))
     }
   
 }
-$plaintext = json_encode(array("server_response"=>$response));
-echo json_encode(array("server_response"=>$response));
-echo ' '."<br>";
-echo ' '."<br>";
-$cipher = new Crypt_AES(CRYPT_AES_MODE_CTR);
-$cipher->setKey('abcdefghabcdefgh');
-// the IV defaults to all-NULLs if not explicitly defined
-$cipher->setIV('RandomInitVecto1');
-echo $cipher->encrypt($plaintext)."<br>";
-echo ' '."<br>";
-echo ' '."<br>";
-echo $cipher->decrypt($cipher->encrypt($plaintext))."<br>";
+//Encrypt Data		
+//---------------------------------------------------------------
+		$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
+		$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
+		$cipher->setKey($symmetricKey);
+		echo base64_encode($cipher->encrypt(json_encode(array("server_response"=>$response))));
+//---------------------------------------------------------------	
 
 mysqli_close($conn);
 ?>

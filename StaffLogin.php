@@ -1,5 +1,10 @@
 <?php
 require "conn.php";
+set_include_path('.;C:\wamp\bin\php\php5.5.12\pear');
+include('Crypt/AES.php');
+include('Crypt/RSA.php');
+include('Crypt/Random.php');
+include('Math/BigInteger.php');
 $tag_id = $_POST["tag_id"];
 $role = "";
 
@@ -59,15 +64,20 @@ if ($result=mysqli_query($conn,$mysql_qry))
 				array_push($response, array("role"=>$role,"first_name"=>$row3[0], "last_name"=>$row3[1],"ward_name"=>$ward_name));						
 			}				
 		}
-		echo json_encode(array("server_response"=>$response));
 
+//Encrypt Data		
+//---------------------------------------------------------------
+		$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
+		$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
+		$cipher->setKey($symmetricKey);
+		echo base64_encode($cipher->encrypt(json_encode(array("server_response"=>$response))));
+//---------------------------------------------------------------		
 	}
 	else
 	{
 		echo "failed";
 	}
 }
-
 mysqli_close($conn);
 
 ?>
