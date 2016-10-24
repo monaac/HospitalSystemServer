@@ -7,7 +7,7 @@ include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $client_response = $_POST["client_response"];
 
-//Decrypt Data		
+//Decrypt Incoming Data
 //---------------------------------------------------------------
 	$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
 	$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
@@ -15,13 +15,11 @@ $client_response = $_POST["client_response"];
 	$decryptedData = $cipher->decrypt(base64_decode($client_response));
 //---------------------------------------------------------------	
 
-//Unpack JSON Object
+//Unpack Incoming Data
 //---------------------------------------------------------------
 $obj = json_decode($decryptedData);
 $tag_id = $obj->{"tag_id"};
 $typeOfFile = $obj->{"typeOfFile"};
-//$tag_id = 560;
-//$typeOfFile = "Blood Test Report";
 //---------------------------------------------------------------
 
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";

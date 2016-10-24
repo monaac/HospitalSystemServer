@@ -7,6 +7,8 @@ include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $tag_id = $_POST["tag_id"];
 
+//Extract Data Required from database and package it
+//---------------------------------------------------------------
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";
 
 if ($result1=mysqli_query($conn,$mysql_qry1))
@@ -38,7 +40,9 @@ if ($result2=mysqli_query($conn,$mysql_qry2))
     }
   
 }
-//Encrypt Data		
+//---------------------------------------------------------------
+
+//Encrypt Outgoing Data
 //---------------------------------------------------------------
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
 		$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');

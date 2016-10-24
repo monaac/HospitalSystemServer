@@ -8,7 +8,7 @@ $last_name = "World";
 $gender = "male";
 $phone_num = "0827809898";
 $emergency_num = "0619453231";
-$address = "Clancey Avenue";
+$address = "Clancy Avenue";
 $current_ward = "3";
 
 #$tag_id = $_POST["tag_id"];

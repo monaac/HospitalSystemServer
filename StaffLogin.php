@@ -6,6 +6,9 @@ include('Crypt/RSA.php');
 include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $tag_id = $_POST["tag_id"];
+
+//Extract Data Required from database and package it
+//---------------------------------------------------------------
 $role = "";
 
 $mysql_qry = "select role from login where tag_id like '$tag_id'";
@@ -64,8 +67,9 @@ if ($result=mysqli_query($conn,$mysql_qry))
 				array_push($response, array("role"=>$role,"first_name"=>$row3[0], "last_name"=>$row3[1],"ward_name"=>$ward_name));						
 			}				
 		}
+//---------------------------------------------------------------
 
-//Encrypt Data		
+//Encrypt Outgoing Data
 //---------------------------------------------------------------
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
 		$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');

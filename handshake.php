@@ -6,9 +6,8 @@ include('Crypt/RSA.php');
 include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $recvData = $_POST["tag_id"];
-//$recvData = file_get_contents('C:\wamp\www\recv.txt');
 
-//Decrypt the incoming data 
+//Decrypt the incoming data using RSA
 //--------------------------------------------
 $rsa = new Crypt_RSA();
 $privatekey = file_get_contents('C:\wamp\www\private.txt');
@@ -16,13 +15,13 @@ $rsa->loadKey($privatekey);
 $decryptedData = $rsa->decrypt(base64_decode($recvData));
 //--------------------------------------------
 
-//Load the symmetric key to be sent and the unique to be tested
+//Load the symmetric key and the unique number to be tested
 //--------------------------------------------
 $symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
 $unique = file_get_contents('C:\wamp\www\unique.txt');
 //--------------------------------------------
 
-//Test if unique number matches and send symmetric key by encrypting it using the android public key recieved
+//Test if unique number matches and send symmetric key by encrypting it using the android public key
 //--------------------------------------------
 $clientPublicKey = file_get_contents('C:\wamp\www\clientPublicKey.txt');
 $pieces = explode ('#',$clientPublicKey);

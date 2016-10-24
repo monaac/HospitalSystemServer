@@ -7,7 +7,7 @@ include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $client_response = $_POST["client_response"];
 
-//Decrypt Data		
+//Decrypt Incoming Data
 //---------------------------------------------------------------
 	$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
 	$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
@@ -15,11 +15,16 @@ $client_response = $_POST["client_response"];
 	$decryptedData = $cipher->decrypt(base64_decode($client_response));
 //---------------------------------------------------------------	
 
+//Unpack Incoming Data
+//---------------------------------------------------------------
 $obj = json_decode($decryptedData);
 
 $tag_id = $obj->{'tag_id'};
 $type = $obj->{'type'};
+//---------------------------------------------------------------
 
+//Store Incoming Data in database
+//---------------------------------------------------------------
 $mysql_qry1 = "SELECT `patient_id` FROM `patient` WHERE tag_id='$tag_id'";
 
 if ($result1=mysqli_query($conn,$mysql_qry1))
@@ -37,4 +42,7 @@ if ($result=mysqli_query($conn,$mysql_qry))
 	echo "success";
 }
 mysqli_close($conn);
+//---------------------------------------------------------------
+
+
 ?>

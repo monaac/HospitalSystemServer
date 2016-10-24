@@ -6,7 +6,9 @@ include('Crypt/RSA.php');
 include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $tag_id = $_POST["tag_id"];
-//$tag_id = 560;
+
+//Extract Data Required from database and package it
+//---------------------------------------------------------------
 $mysql_qry = "SELECT `first_name`, `last_name`, `id_num`, `admission_date`,`emergency_num`,`gender`,`phone_num`,`address`,`currWard_id`,`smoker`,`alcoholic`,`image` FROM `patient` WHERE tag_id='$tag_id'";
 
 $response = array();
@@ -28,9 +30,9 @@ if ($result=mysqli_query($conn,$mysql_qry))
     }
   mysqli_free_result($result);
 }
-//echo json_encode(array("server_response"=>$response));
+//---------------------------------------------------------------
 
-//Encrypt Data		
+//Encrypt Outgoing Data
 //---------------------------------------------------------------
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
 		$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');

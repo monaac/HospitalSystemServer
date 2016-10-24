@@ -7,7 +7,7 @@ include('Crypt/Random.php');
 include('Math/BigInteger.php');
 $client_response = $_POST["client_response"];
 
-//Decrypt Data		
+//Decrypt Incoming Data
 //---------------------------------------------------------------
 	$cipher = new Crypt_AES(CRYPT_AES_MODE_ECB);
 	$symmetricKey = file_get_contents('C:\wamp\www\symmetric.txt');
@@ -15,13 +15,18 @@ $client_response = $_POST["client_response"];
 	$decryptedData = $cipher->decrypt(base64_decode($client_response));
 //---------------------------------------------------------------	
 
+//Unpack Incoming Data
+//---------------------------------------------------------------
 $obj = json_decode($decryptedData);
 
 $tag_id = $obj->{"tag_id"};
 $nurse_tag = $obj->{"nurse_tag"};
 $t = $obj->{"time"};
 $prescription_id = $obj->{"prescription_id"};
+//---------------------------------------------------------------
 
+//Store Incoming Data in database
+//---------------------------------------------------------------
 $patient_id = "";
 $nurse_id = "";
 
@@ -54,4 +59,6 @@ else
     echo "failed";
 }
 mysqli_close($conn);
+//---------------------------------------------------------------
+
 ?>
